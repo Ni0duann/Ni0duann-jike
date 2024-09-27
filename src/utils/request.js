@@ -18,8 +18,8 @@ request.interceptors.request.use((config) =>{
 })
 
 // 相应拦截器
-request.interceptors.request.use((config) =>{
-    return Response.data
+request.interceptors.response.use((response) =>{
+    return response.data
 },(error)=>{
     // 超出2xx会触发
     return Promise.reject(error)
