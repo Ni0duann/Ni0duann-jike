@@ -1,4 +1,5 @@
 //路由配置
+import { AuthRoute } from "@/components/AuthRoute";
 import Layout from "@/pages/Layout";
 import Login from  "@/pages/Login"
 import { createBrowserRouter } from "react-router-dom";
@@ -6,7 +7,7 @@ import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter ([
     {
         path: "/",
-        element: <Layout />
+        element: <AuthRoute> <Layout /></AuthRoute>
     },
     {
         path:"/login",
