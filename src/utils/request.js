@@ -34,6 +34,7 @@ request.interceptors.response.use((response) =>{
     if (error.response.status === 401) {
         removeToken()
         router.navigate('/login')
+        //需要强制刷新bug
         window.location.reload()
     }
     console.log(error);
