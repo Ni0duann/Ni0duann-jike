@@ -32,7 +32,7 @@ const BarChart  = ({title}) =>{
         };
         //使用图标参数完成渲染
         option && myChart.setOption(option);
-    }, []);
+    }, [title]);
     return (
           <div ref={chartRef} style={{ width: "500px", height: "400px" }}></div>
       );
