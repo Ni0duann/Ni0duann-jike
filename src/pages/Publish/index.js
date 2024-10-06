@@ -49,11 +49,17 @@ const Publish = () => {
   };
 
   //上传回调
-  const [imageList,setImageList] = useState([])
+  const [imageList, setImageList] = useState([]);
   const onChange = (value) => {
-    console.log('正在上传中');
-    setImageList(value.fileList)
-  }
+    console.log("正在上传中");
+    setImageList(value.fileList);
+  };
+
+  //切换图片封面类型
+  const [imageType, setImageType] = useState(0);
+  const onTypeChange = (e) => {
+    setImageType(e.target.value);
+  };
 
   return (
     <div className="publish">
@@ -70,7 +76,7 @@ const Publish = () => {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ type: 1 }}
+          initialValues={{ type: 0 }}
           onFinish={onFinish}
         >
           <Form.Item
@@ -82,23 +88,25 @@ const Publish = () => {
           </Form.Item>
           <Form.Item label="封面">
             <Form.Item name="type">
-              <Radio.Group>
+              <Radio.Group onChange={onTypeChange}>
                 <Radio value={1}>单图</Radio>
                 <Radio value={3}>三图</Radio>
                 <Radio value={0}>无图</Radio>
               </Radio.Group>
             </Form.Item>
-            <Upload 
-                listType="picture-card" 
+            {imageType > 0 && (
+              <Upload
+                listType="picture-card"
                 showUploadList
-                action={'https://geek.itheima.net/v1_0/upload'}
+                action={"https://geek.itheima.net/v1_0/upload"}
                 name="image"
                 onChange={onChange}
-            >
-              <div style={{ marginTop: 8 }}>
-                <PlusOutlined />
-              </div>
-            </Upload>
+              >
+                <div style={{ marginTop: 8 }}>
+                  <PlusOutlined />
+                </div>
+              </Upload>
+            )}
           </Form.Item>
           <Form.Item
             label="频道"
