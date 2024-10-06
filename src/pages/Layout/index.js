@@ -44,7 +44,7 @@ const GeekLayout = () => {
   // 获取路由路径
   const location = useLocation()
   const SelectedKey = location.pathname
-  console.log(SelectedKey);
+  // console.log(SelectedKey);
 
   //触发个人用户信息action
   const dispatch = useDispatch()
