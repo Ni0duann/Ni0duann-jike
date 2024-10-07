@@ -16,3 +16,14 @@ export function createArticlelAPI(data){
         data
     })
 }
+
+
+//删除文章 
+export function deleteArticlelAPI(id){
+    return request({
+        url: `/mp/articles/${id}`,
+        method:'DELETE'
+    })
+}
+
+

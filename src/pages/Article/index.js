@@ -7,6 +7,7 @@ import {
   Radio,
   DatePicker,
   Select,
+  Popconfirm,
 } from "antd";
 import locale from "antd/es/date-picker/locale/zh_CN";
 
@@ -17,6 +18,7 @@ import img404 from "@/assets/error.png";
 import { useChannel } from "@/hooks/useChannel";
 import { useEffect, useState } from "react";
 import { getArticleListAPI } from "@/apis/user";
+import { deleteArticlelAPI } from "@/apis/article";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -73,12 +75,21 @@ const Article = () => {
         return (
           <Space size="middle">
             <Button type="primary" shape="circle" icon={<EditOutlined />} />
-            <Button
-              type="primary"
-              danger
-              shape="circle"
-              icon={<DeleteOutlined />}
-            />
+            <Popconfirm
+              title="删除文章"
+              description="确认要删除当前文章吗?"
+              onConfirm={()=>onConfirm(data)}
+              onCancel={onCancel}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                type="primary"
+                danger
+                shape="circle"
+                icon={<DeleteOutlined />}
+              />
+            </Popconfirm>
           </Space>
         );
       },
@@ -118,9 +129,28 @@ const Article = () => {
     });
   };
 
+  //分页
+  const onPageChange = (page) => {
+    //修改参数依赖项 引发数据重新渲染
+    setReqData({
+      ...reqData,
+      page,
+    });
+  };
+
+  //删除
+  const onConfirm =async (data) => {
+    await deleteArticlelAPI(data.id)
+    setReqData({
+      ...reqData
+    })
+  }
+  const onCancel = () => {
+    console.log('取消了删除');
+  }
+
   return (
     <div>
-      V
       <Card
         title={
           <Breadcrumb
@@ -169,7 +199,16 @@ const Article = () => {
       </Card>
       {/* 表格区域 */}
       <Card title={`根据筛选条件共查询到 ${count} 条结果：`}>
-        <Table rowKey="id" columns={columns} dataSource={list} />
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={list}
+          pagination={{
+            total: count,
+            pageSize: reqData.per_page,
+            onChange: onPageChange,
+          }}
+        />
       </Card>
     </div>
   );
