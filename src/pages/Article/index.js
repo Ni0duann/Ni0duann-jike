@@ -28,8 +28,8 @@ const Article = () => {
   //定义枚举状态
   const status = {
     1: <Tag color="warning">待审核</Tag>,
-    2: <Tag color="success">审核通过</Tag>
-  }
+    2: <Tag color="success">审核通过</Tag>,
+  };
   const columns = [
     {
       title: "封面",
@@ -49,7 +49,7 @@ const Article = () => {
     {
       title: "状态",
       dataIndex: "status",
-      render: (data) => status[data]
+      render: (data) => status[data],
     },
     {
       title: "发布时间",
@@ -85,21 +85,42 @@ const Article = () => {
     },
   ];
 
-
+  //筛选功能
+  const [reqData, setReqData] = useState({
+    status: "",
+    channel_id: "",
+    begin_pubdate: "",
+    end_pubdate: "",
+    page: 1,
+    per_page: 4,
+  });
 
   //获取文章列表
-  const [list,setList] = useState([])
-  const [count,setCount] = useState(0)
-  useEffect(()=>{
-    async function getList () {
-        const res = await getArticleListAPI()
-        setList(res.data.results)
-        setCount(res.data.total_count)
+  const [list, setList] = useState([]);
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    async function getList() {
+      const res = await getArticleListAPI(reqData);
+      setList(res.data.results);
+      setCount(res.data.total_count);
     }
-    getList()
-  },[])
+    getList();
+  }, [reqData]);
+
+  //获取当前筛选数据
+  const onFinish = (formValue) => {
+    setReqData({
+      ...reqData,
+      channel_id: formValue.channel_id,
+      status: formValue.status,
+      begin_pubdate: formValue.date[0].format("YYYY-MM-DD"),
+      end_pubdate: formValue.date[1].format("YYYY-MM-DD"),
+    });
+  };
+
   return (
     <div>
+      V
       <Card
         title={
           <Breadcrumb
@@ -111,7 +132,7 @@ const Article = () => {
         }
         style={{ marginBottom: 20 }}
       >
-        <Form initialValues={{ status: "" }}>
+        <Form initialValues={{ status: "" }} onFinish={onFinish}>
           <Form.Item label="状态" name="status">
             <Radio.Group>
               <Radio value={""}>全部</Radio>
@@ -148,7 +169,6 @@ const Article = () => {
       </Card>
       {/* 表格区域 */}
       <Card title={`根据筛选条件共查询到 ${count} 条结果：`}>
-
         <Table rowKey="id" columns={columns} dataSource={list} />
       </Card>
     </div>
