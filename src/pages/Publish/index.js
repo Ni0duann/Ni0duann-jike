@@ -17,7 +17,11 @@ import "./index.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { createArticlelAPI, getArticlelById, updateArticlelAPI } from "@/apis/article";
+import {
+  createArticlelAPI,
+  getArticlelById,
+  updateArticlelAPI,
+} from "@/apis/article";
 import { useChannel } from "@/hooks/useChannel";
 
 const { Option } = Select;
@@ -49,7 +53,7 @@ const Publish = () => {
     };
     //判断逻辑调用不同接口
     if (articleId) {
-      updateArticlelAPI({...reqData, id :articleId})
+      updateArticlelAPI({ ...reqData, id: articleId });
     } else {
       createArticlelAPI(reqData);
     }
