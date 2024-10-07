@@ -35,3 +35,12 @@ export function getArticlelById(id){
     })
 }
 
+
+//编辑文章
+export function updateArticlelAPI(data){
+    return request({
+        url:`/mp/articles/${data.id}?draft=false`,
+        method:'PUT',
+        data
+    })
+}
