@@ -26,4 +26,12 @@ export function deleteArticlelAPI(id){
     })
 }
 
+//获取文章详情
+
+export function getArticlelById(id){
+    return request({
+        url: `/mp/articles/${id}`,
+        method:'GET'
+    })
+}
 
